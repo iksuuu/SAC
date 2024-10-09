@@ -1,27 +1,127 @@
 (function () {
     let tmpl = document.createElement('template');
     tmpl.innerHTML = `
-    <style>
-      #chatWindow {
+    // <style>
+    //   #chatWindow {
+    //     width: 100%;
+    //     height: 300px;
+    //     border: 1px solid #ccc;
+    //     overflow-y: auto;
+    //     padding: 5px;
+    //     background-color: #f9f9f9;
+    //   }
+    //   #userInput {
+    //     width: calc(100% - 60px);
+    //     margin-right: 10px;
+    //   }
+    //   #sendBtn {
+    //     width: 50px;
+    //   }
+    // </style>
+    // <div>
+    //   <div id="chatWindow"></div>
+    //   <input type="text" id="userInput" placeholder="Type your message here..."/>
+    //   <button type="button" id="sendBtn">Send</button>
+    // </div>`;
+     <style>
+      /* Container styles */
+      .chat-container {
+        display: flex;
+        flex-direction: column;
         width: 100%;
-        height: 300px;
-        border: 1px solid #ccc;
+        height: 400px;
+        max-width: 400px;
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        background-color: #fff;
+      }
+      
+      /* Chat window styles */
+      #chatWindow {
+        flex-grow: 1;
+        padding: 10px;
         overflow-y: auto;
-        padding: 5px;
-        background-color: #f9f9f9;
+        background-color: #f0f0f0;
+        border-bottom: 1px solid #ddd;
+        font-family: 'Arial', sans-serif;
       }
+
+      /* Message bubble styles */
+      .message {
+        margin: 5px 0;
+        padding: 8px 12px;
+        border-radius: 15px;
+        max-width: 80%;
+        word-wrap: break-word;
+      }
+
+      /* User message styles */
+      .user-message {
+        background-color: #e0ffe0;
+        align-self: flex-end;
+        text-align: right;
+      }
+
+      /* Bot message styles */
+      .bot-message {
+        background-color: #f0f0f0;
+        align-self: flex-start;
+        text-align: left;
+      }
+
+      /* Input and button container */
+      .input-container {
+        display: flex;
+        padding: 10px;
+        background-color: #fff;
+      }
+
+      /* Input styles */
       #userInput {
-        width: calc(100% - 60px);
-        margin-right: 10px;
+        flex-grow: 1;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 20px;
+        outline: none;
+        font-family: 'Arial', sans-serif;
       }
+
+      /* Send button styles */
       #sendBtn {
-        width: 50px;
+        margin-left: 10px;
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 20px;
+        cursor: pointer;
+        font-weight: bold;
+        font-family: 'Arial', sans-serif;
+      }
+
+      /* Hover effects */
+      #sendBtn:hover {
+        background-color: #0056b3;
+      }
+
+      /* Scrollbar styling */
+      #chatWindow::-webkit-scrollbar {
+        width: 8px;
+      }
+      #chatWindow::-webkit-scrollbar-thumb {
+        background-color: #ccc;
+        border-radius: 10px;
       }
     </style>
-    <div>
+
+    <div class="chat-container">
       <div id="chatWindow"></div>
-      <input type="text" id="userInput" placeholder="Type your message here..."/>
-      <button type="button" id="sendBtn">Send</button>
+      <div class="input-container">
+        <input type="text" id="userInput" placeholder="Type your message here..." />
+        <button type="button" id="sendBtn">Send</button>
+      </div>
     </div>`;
 
     class ChatbotWidget extends HTMLElement {
