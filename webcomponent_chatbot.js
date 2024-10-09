@@ -1,29 +1,8 @@
 (function () {
     let tmpl = document.createElement('template');
     tmpl.innerHTML = `
-    // <style>
-    //   #chatWindow {
-    //     width: 100%;
-    //     height: 300px;
-    //     border: 1px solid #ccc;
-    //     overflow-y: auto;
-    //     padding: 5px;
-    //     background-color: #f9f9f9;
-    //   }
-    //   #userInput {
-    //     width: calc(100% - 60px);
-    //     margin-right: 10px;
-    //   }
-    //   #sendBtn {
-    //     width: 50px;
-    //   }
-    // </style>
-    // <div>
-    //   <div id="chatWindow"></div>
-    //   <input type="text" id="userInput" placeholder="Type your message here..."/>
-    //   <button type="button" id="sendBtn">Send</button>
-    // </div>`;
-     <style>
+    
+    <style>
       /* Container styles */
       .chat-container {
         display: flex;
