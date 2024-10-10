@@ -39,7 +39,7 @@
       .user-message {
         background-color: #e0ffe0;
         align-self: flex-end;
-        text-align: right;
+        text-align: left;
       }
 
       /* Bot message styles */
@@ -131,7 +131,7 @@
         displayMessage(sender, message) {
             const messageElement = document.createElement('div');
             messageElement.classList.add('message');
-            messageElement.textContent = message;
+            messageElement.textContent = `${sender}: ${message}`;
 
             if (sender === "User") {
                 messageElement.classList.add('user-message');
