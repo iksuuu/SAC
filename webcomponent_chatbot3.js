@@ -105,6 +105,8 @@
     class ChatbotWidget extends HTMLElement {
         constructor() {
             super();
+            this.apiKey = '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'; // Replace this with your actual API key
+            this.conversationHistory = [];  // Initialize memory to store conversation history
             this.init();
         }
 
@@ -124,13 +126,21 @@
             if (message.trim() !== "") {
                 this.displayMessage("User", message);
                 this.userInput.value = "";
-                this.sendMessage(message);  // Placeholder function to implement
+                // Store the user's message in the conversation history
+                this.conversationHistory.push({ role: "user", content: message });
+
+                // Send the conversation history to OpenAI API
+                this.sendMessage();
             }
         }
 
-        displayMessage(sender, message) {
-            const messageElement = document.createElement('div');
-            messageElement.classList.add('message');
+        displayMessage(sender, message, messageElement=null) {
+            if (!messageElement) {
+              messageElement = document.createElement('div');
+              messageElement.classList.add('message');
+              this.chatWindow.appendChild(messageElement);
+          }
+
             messageElement.textContent = `${sender}: ${message}`;
 
             if (sender === "User") {
@@ -139,21 +149,51 @@
                 messageElement.classList.add('bot-message');
             }
 
-            this.chatWindow.appendChild(messageElement);
             this.chatWindow.scrollTop = this.chatWindow.scrollHeight; // Auto scroll
+
+            return messageElement;
         }
 
-        sendMessage(message) {
-            // Placeholder: Implement sending message to the backend (e.g., API call)
+        async sendMessage(message) {
             console.log(`Sending message: ${message}`);
-            // Simulate receiving a response
-            setTimeout(() => this.receiveMessage("Bot", "This is a simulated response."), 1000);
+            if (this.conversationHistory.length > 10) 
+              {  // Keep only the last 10 messages
+              this.conversationHistory = this.conversationHistory.slice(-10);
+            }
+          
+            // Display a "loading" message or spinner (optional)
+            const typingElement = this.displayMessage("Bot", "Typing...");
+
+            try {
+                const response = await fetch('https://api.openai.com/v1/chat/completions', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${this.apiKey}`  // Authenticate the API request
+                    },
+                    body: JSON.stringify({
+                        model: "gpt-4o-mini",  // Specify the model
+                        messages: this.conversationHistory,  // Send the conversation history
+                        max_tokens: 200 // Limit the number of tokens generated
+                    })
+                });
+
+                const data = await response.json();
+                // Parse the API response and display it
+                const botReply = data.choices[0].message.content.trim();
+
+                // Store the bot's response in the conversation history
+                this.conversationHistory.push({ role: "assistant", content: botReply });
+
+                // Replace "Typing..." with the bot's actual response
+                this.displayMessage("Bot", botReply, typingElement);
+                
+            } catch (error) {
+                console.error('Error with OpenAI API request:', error);
+                this.displayMessage("Bot", "Sorry, there was an error. Please try again.", typingElement);
+            }
         }
 
-        receiveMessage(sender, message) {
-            // Placeholder: Implement receiving messages from the backend
-            this.displayMessage(sender, message);
-        }
     }
 
     customElements.define('chatbot-widget', ChatbotWidget);
