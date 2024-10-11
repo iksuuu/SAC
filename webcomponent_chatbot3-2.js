@@ -164,6 +164,9 @@
             // Display a "loading" message or spinner (optional)
             const typingElement = this.displayMessage("Bot", "Typing...");
             
+            console.log('API Key being used:', this._apiKey);
+            console.log('Max tokens being used:', this._max_tokens);
+
             // Check if the API key is set
             if (!this._apiKey) {
                 this.displayMessage("Bot", "API key is missing!", typingElement);
