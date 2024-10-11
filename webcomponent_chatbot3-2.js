@@ -105,8 +105,8 @@
     class ChatbotWidget extends HTMLElement {
         constructor() {
             super();
-            this.apiKey = ''; // Initialize an empty apiKey
-            this.max_tokens = 200; // Initialize max_tokens
+            this._apiKey = ''; // Initialize an empty apiKey
+            this._max_tokens = 200; // Initialize max_tokens
             this.conversationHistory = [];  // Initialize memory to store conversation history
             this.init();
         }
@@ -165,7 +165,7 @@
             const typingElement = this.displayMessage("Bot", "Typing...");
             
             // Check if the API key is set
-            if (!this.apiKey) {
+            if (!this._apiKey) {
                 this.displayMessage("Bot", "API key is missing!", typingElement);
                 return;
             }
@@ -175,12 +175,12 @@
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${this.apiKey}`  // Authenticate the API request
+                        'Authorization': `Bearer ${this._apiKey}`  // Authenticate the API request
                     },
                     body: JSON.stringify({
                         model: "gpt-4o-mini",  // Specify the model
                         messages: this.conversationHistory,  // Send the conversation history
-                        max_tokens: this.max_tokens // Limit the number of tokens generated
+                        max_tokens: this._max_tokens // Limit the number of tokens generated
                     })
                 });
 
@@ -201,19 +201,19 @@
         }
         // Setters for properties to be called by the SAC framework
         set apiKey(value) {
-          this.apiKey = value;
+          this._apiKey = value;
         }
 
         set max_tokens(value) {
-          this.max_tokens = value;
+          this._max_tokens = value;
         }
 
         get apiKey() {
-          return this.apiKey;
+          return this._apiKey;
         }
 
         get max_tokens() {
-          return this.max_tokens;
+          return this._max_tokens;
         }
     }
 
