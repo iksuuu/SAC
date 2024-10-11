@@ -106,21 +106,9 @@
         constructor() {
             super();
             this.apiKey = ''; // Initialize an empty apiKey
+            this.max_tokens = 200; // Initialize max_tokens
             this.conversationHistory = [];  // Initialize memory to store conversation history
             this.init();
-        }
-
-        // Observe the 'apiKey' attribute, so the component can react to changes
-        static get observedAttributes() {
-            return ['apiKey'];
-        }
-
-        // Called when the apiKey attribute is changed (set by the SAC widget builder)
-        attributeChangedCallback(name, oldValue, newValue) {
-            if (name === 'apiKey') {
-                this.apiKey = newValue;
-                console.log('API Key set:', this.apiKey);  // Just for debugging
-            }
         }
 
         init() {
@@ -175,7 +163,8 @@
           
             // Display a "loading" message or spinner (optional)
             const typingElement = this.displayMessage("Bot", "Typing...");
-
+            
+            // Check if the API key is set
             if (!this.apiKey) {
                 this.displayMessage("Bot", "API key is missing!", typingElement);
                 return;
@@ -191,7 +180,7 @@
                     body: JSON.stringify({
                         model: "gpt-4o-mini",  // Specify the model
                         messages: this.conversationHistory,  // Send the conversation history
-                        max_tokens: 200 // Limit the number of tokens generated
+                        max_tokens: this.max_tokens // Limit the number of tokens generated
                     })
                 });
 
@@ -210,7 +199,22 @@
                 this.displayMessage("Bot", "Sorry, there was an error. Please try again.", typingElement);
             }
         }
+        // Setters for properties to be called by the SAC framework
+        set apiKey(value) {
+          this.apiKey = value;
+        }
 
+        set max_tokens(value) {
+          this.max_tokens = value;
+        }
+
+        get apiKey() {
+          return this.apiKey;
+        }
+
+        get max_tokens() {
+          return this.max_tokens;
+        }
     }
 
     customElements.define('chatbot-widget', ChatbotWidget);
