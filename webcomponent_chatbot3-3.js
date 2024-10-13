@@ -176,7 +176,7 @@
 
             const headers = {
               "Content-Type": "application/json",
-              "Authorization": "Bearer" + apiKey  // Authenticate the API request
+              "Authorization": "Bearer " + apiKey  // Authenticate the API request
             };
             // Log the headers to the console for debugging
             console.log('Headers being sent:', headers);
