@@ -188,7 +188,7 @@
                     body: JSON.stringify({
                         model: "gpt-4o-mini",  // Specify the model
                         messages: this.conversationHistory,  // Send the conversation history
-                        max_tokens: max_tokens // Limit the number of tokens generated
+                        max_tokens: parseInt(max_tokens) // Limit the number of tokens generated
                     })
                 });
 
