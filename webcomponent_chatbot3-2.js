@@ -173,12 +173,14 @@
                 return;
             }
 
+            const apiKey = this._apiKey.trim(); // Trim the API key
+
             try {
                 const response = await fetch('https://api.openai.com/v1/chat/completions', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${this._apiKey}`  // Authenticate the API request
+                        'Authorization': `Bearer ${apiKey}`  // Authenticate the API request
                     },
                     body: JSON.stringify({
                         model: "gpt-4o-mini",  // Specify the model
