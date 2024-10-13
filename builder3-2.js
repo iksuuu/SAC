@@ -93,16 +93,16 @@
         }
 
         // Getter and setter for the apiKey property
-        set apiKey(_apiKey) {
-            this._shadowRoot.getElementById("builder_apiKey").value = _apiKey;
+        set apiKey(apiKey) {
+            this._shadowRoot.getElementById("builder_apiKey").value = apiKey;
         }
         get apiKey() {
             return this._shadowRoot.getElementById("builder_apiKey").value;
         }
 
         // Getter and setter for the max_tokens property
-        set max_tokens(_max_tokens) {
-            this._shadowRoot.getElementById("builder_max_tokens").value = _max_tokens;
+        set max_tokens(max_tokens) {
+            this._shadowRoot.getElementById("builder_max_tokens").value = max_tokens;
         }
         get max_tokens() {
             return this._shadowRoot.getElementById("builder_max_tokens").value;
