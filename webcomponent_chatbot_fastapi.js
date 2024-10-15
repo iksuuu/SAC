@@ -8,12 +8,13 @@
         flex-direction: column;
         width: 100%;
         height: 400px;
-        max-width: 400px;
+        max-width: 700px;
         border: 1px solid #ddd;
         border-radius: 10px;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         overflow: hidden;
-        background-color: #fff;
+        background-color: #f4f4f4; /* Fiori-like background */
+        font-family: "72", Arial, sans-serif;
       }
       
       /* Chat window styles */
@@ -21,39 +22,40 @@
         flex-grow: 1;
         padding: 10px;
         overflow-y: auto;
-        background-color: #f0f0f0;
+        background-color: #ffffff;
         border-bottom: 1px solid #ddd;
-        font-family: 'Arial', sans-serif;
       }
 
       /* Message bubble styles */
       .message {
-        margin: 5px 0;
-        padding: 8px 12px;
-        border-radius: 15px;
-        max-width: 80%;
-        word-wrap: break-word;
+        margin: 8px;
+        padding: 10px;
+        border-radius: 8px;
+        max-width: 70%;
+        white-space: pre-wrap;
+        font-size: 14px;
       }
 
       /* User message styles */
       .user-message {
-        background-color: #e0ffe0;
+        background-color: #006BB4; /* Fiori blue */
+        color: white;
         align-self: flex-end;
-        text-align: left;
+
       }
 
       /* Bot message styles */
       .bot-message {
-        background-color: #f0f0f0;
+        background-color: #E5E5E5; /* Light gray for bot */
+        color: #000000;
         align-self: flex-start;
-        text-align: left;
       }
 
       /* Input and button container */
       .input-container {
         display: flex;
         padding: 10px;
-        background-color: #fff;
+        background-color: #ffffff;
       }
 
       /* Input styles */
@@ -63,25 +65,26 @@
         border: 1px solid #ddd;
         border-radius: 20px;
         outline: none;
-        font-family: 'Arial', sans-serif;
+        font-family: "72", Arial, sans-serif;
+        font-size: 14px;
       }
 
       /* Send button styles */
       #sendBtn {
         margin-left: 10px;
         padding: 10px 20px;
-        background-color: #007bff;
-        color: #fff;
+        background-color: #0A6ED1; /* Fiori button blue */
+        color: white;
         border: none;
         border-radius: 20px;
         cursor: pointer;
         font-weight: bold;
-        font-family: 'Arial', sans-serif;
+        font-family: "72", Arial, sans-serif;
       }
 
       /* Hover effects */
       #sendBtn:hover {
-        background-color: #0056b3;
+        background-color: #004C99; /* Darker blue on hover */
       }
 
       /* Scrollbar styling */
@@ -140,7 +143,12 @@
               this.chatWindow.appendChild(messageElement);
           }
 
-            messageElement.textContent = `${sender}: ${message}`;
+            // Replace newline characters with <br> tags for proper formatting
+            const formattedMessage = message.replace(/\n/g, '<br>');
+            // Set the formatted message as the content of the messageElement
+            messageElement.innerHTML = `${sender}: ${formattedMessage}`;
+
+            //messageElement.textContent = `${sender}: ${message}`;
 
             if (sender === "User") {
                 messageElement.classList.add('user-message');
@@ -219,5 +227,5 @@
         }
     }
 
-    customElements.define('chatbot-widget', ChatbotWidget);
+    customElements.define('chatbot-widget-fastapi', ChatbotWidget);
 })();
