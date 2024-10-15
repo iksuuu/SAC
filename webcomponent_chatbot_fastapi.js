@@ -134,6 +134,7 @@
                       event.preventDefault();  // Prevent default "Enter" behavior (e.g., form submission)
                   }
               });
+            }
         }
 
         handleSendMessage() {
