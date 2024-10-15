@@ -114,14 +114,26 @@
         }
 
         init() {
-            let shadowRoot = this.attachShadow({mode: "open"});
-            shadowRoot.appendChild(tmpl.content.cloneNode(true));
 
-            this.chatWindow = shadowRoot.querySelector('#chatWindow');
-            this.userInput = shadowRoot.querySelector('#userInput');
-            this.sendBtn = shadowRoot.querySelector('#sendBtn');
+            // Check if shadow DOM is already attached to avoid re-attachment
+            if (!this.shadowRoot) {
+              let shadowRoot = this.attachShadow({ mode: "open" });
+              shadowRoot.appendChild(tmpl.content.cloneNode(true));
 
-            this.sendBtn.addEventListener('click', () => this.handleSendMessage());
+              this.chatWindow = shadowRoot.querySelector('#chatWindow');
+              this.userInput = shadowRoot.querySelector('#userInput');
+              this.sendBtn = shadowRoot.querySelector('#sendBtn');
+
+              // Add event listener for "click" on the send button
+              this.sendBtn.addEventListener('click', () => this.handleSendMessage());
+
+              // Add event listener for "Enter" key press
+              this.userInput.addEventListener('keydown', (event) => {
+                  if (event.key === 'Enter') {
+                      this.handleSendMessage();
+                      event.preventDefault();  // Prevent default "Enter" behavior (e.g., form submission)
+                  }
+              });
         }
 
         handleSendMessage() {
@@ -216,6 +228,7 @@
                 this.displayMessage("Bot", "Sorry, there was an error. Please try again. ${error}", typingElement);
             }
         }
+        /*
         // Method to handle incoming property changes from SAC
         onCustomWidgetBeforeUpdate(changedProperties) {
           this._props = { ...this._props, ...changedProperties };
@@ -225,6 +238,7 @@
         onCustomWidgetAfterUpdate(changedProperties) {
             this.init();
         }
+        */
     }
 
     customElements.define('chatbot-widget-fastapi', ChatbotWidget);
